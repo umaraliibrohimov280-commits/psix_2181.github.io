@@ -1,0 +1,918 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+ <meta charset="UTF-8">
+ <meta name="viewport" content="width=device-width, initial-scale=1.0">
+ <title>RedNote Style Social Network</title>
+ <script src="https://cdn.tailwindcss.com"></script>
+ <link
+href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;500;700&disp
+lay=swap" rel="stylesheet">
+ <style>
+ body {
+ font-family: 'Noto Sans', sans-serif;
+ background-color: #f8f8f8;
+ }
+
+ /* Hide scrollbar for Chrome, Safari and Opera */
+ .no-scrollbar::-webkit-scrollbar {
+ display: none;
+ }
+
+ /* Hide scrollbar for IE, Edge and Firefox */
+ .no-scrollbar {
+ -ms-overflow-style: none; /* IE and Edge */
+ scrollbar-width: none; /* Firefox */
+ }
+ .masonry-grid {
+ column-count: 2;
+ column-gap: 10px;
+ }
+
+ @media (min-width: 768px) {
+ .masonry-grid {
+ column-count: 3;
+ column-gap: 16px;
+ }
+ }
+
+ @media (min-width: 1024px) {
+ .masonry-grid {
+ column-count: 4;
+ column-gap: 20px;
+ }
+ }
+
+ @media (min-width: 1280px) {
+ .masonry-grid {
+ column-count: 5;
+ column-gap: 24px;
+ }
+ }
+ .break-inside-avoid {
+ break-inside: avoid;
+ }
+ .like-animation {
+ animation: like-bounce 0.3s ease-in-out;
+ }
+ @keyframes like-bounce {
+ 0%, 100% { transform: scale(1); }
+ 50% { transform: scale(1.3); }
+ }
+ .tab-active {
+ color: #ff2442;
+ font-weight: 600;
+ }
+ .tab-active::after {
+ content: '';
+ position: absolute;
+ bottom: -2px;
+ left: 50%;
+ transform: translateX(-50%);
+ width: 20px;
+ height: 3px;
+ background-color: #ff2442;
+ border-radius: 2px;
+ }
+ </style>
+</head>
+<body class="bg-gray-50 text-gray-900">
+ <!-- Header -->
+ <header class="fixed top-0 left-0 right-0 bg-white z-50 border-b bordergray-100">
+ <div class="max-w-7xl mx-auto px-4 h-16 flex items-center justifybetween">
+ <!-- Logo -->
+ <div class="flex items-center space-x-2 cursor-pointer"
+onclick="window.scrollTo({top: 0, behavior: 'smooth'})">
+ <div class="w-8 h-8 bg-[#ff2442] rounded-lg flex items-center
+justify-center">
+ <svg class="w-5 h-5 text-white" fill="currentColor"
+viewBox="0 0 24 24">
+ <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-
+4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+ </svg>
+ </div>
+ <span class="text-xl font-bold text-[#ff2442] hidden
+sm:block">RedNote</span>
+ </div>
+ <!-- Search Bar -->
+ <div class="flex-1 max-w-xl mx-4">
+ <div class="relative">
+ <input type="text"
+ placeholder="Поиск вдохновения..."
+ class="w-full bg-gray-100 rounded-full py-2.5 pl-10
+pr-4 text-sm focus:outline-none focus:ring-2 focus:ring-[#ff2442]/20
+transition-all"
+ id="searchInput">
+ <svg class="absolute left-3.5 top-1/2 -translate-y-1/2 w-4
+h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+ <path stroke-linecap="round" stroke-linejoin="round"
+stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+ </svg>
+ </div>
+ </div>
+ <!-- Right Actions -->
+ <div class="flex items-center space-x-4">
+ <button class="hidden md:flex items-center space-x-1 bg-
+[#ff2442] text-white px-4 py-2 rounded-full text-sm font-medium hover:bg-
+[#e0203a] transition-colors">
+ <svg class="w-4 h-4" fill="none" stroke="currentColor"
+viewBox="0 0 24 24">
+ <path stroke-linecap="round" stroke-linejoin="round"
+stroke-width="2" d="M12 4v16m8-8H4"/>
+ </svg>
+ <span>Опубликовать</span>
+ </button>
+
+ <button class="relative p-2 hover:bg-gray-100 rounded-full
+transition-colors">
+ <svg class="w-6 h-6 text-gray-600" fill="none"
+stroke="currentColor" viewBox="0 0 24 24">
+ <path stroke-linecap="round" stroke-linejoin="round"
+stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002
+6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-
+.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/>
+ </svg>
+ <span class="absolute top-1.5 right-1.5 w-2 h-2 bg-
+[#ff2442] rounded-full"></span>
+ </button>
+ <div class="w-8 h-8 rounded-full bg-gradient-to-br frompurple-400 to-pink-400 cursor-pointer hover:ring-2 hover:ring-[#ff2442]/30
+transition-all">
+ <img src="data:image/svg+xml,%3Csvg
+xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect
+fill='%23FFB6C1' width='100' height='100'/%3E%3Ccircle cx='50' cy='40' r='20'
+fill='%23FFF'/%3E%3Cellipse cx='50' cy='90' rx='35' ry='30'
+fill='%23FFF'/%3E%3C/svg%3E" alt="Profile" class="w-full h-full rounded-full
+object-cover">
+ </div>
+ </div>
+ </div>
+ <!-- Tabs -->
+ <div class="max-w-7xl mx-auto px-4">
+ <div class="flex space-x-6 overflow-x-auto no-scrollbar border-t
+border-gray-50">
+ <button class="tab-btn tab-active relative py-3 text-sm
+whitespace-nowrap transition-colors" datatab="recommend">Рекомендации</button>
+ <button class="tab-btn relative py-3 text-sm text-gray-500
+whitespace-nowrap hover:text-gray-700 transition-colors" datatab="following">Подписки</button>
+ <button class="tab-btn relative py-3 text-sm text-gray-500
+whitespace-nowrap hover:text-gray-700 transition-colors" datatab="nearby">Рядом</button>
+ <button class="tab-btn relative py-3 text-sm text-gray-500
+whitespace-nowrap hover:text-gray-700 transition-colors" datatab="video">Видео</button>
+ <button class="tab-btn relative py-3 text-sm text-gray-500
+whitespace-nowrap hover:text-gray-700 transition-colors" datatab="food">Еда</button>
+ <button class="tab-btn relative py-3 text-sm text-gray-500
+whitespace-nowrap hover:text-gray-700 transition-colors" datatab="travel">Путешествия</button>
+ <button class="tab-btn relative py-3 text-sm text-gray-500
+whitespace-nowrap hover:text-gray-700 transition-colors" datatab="fashion">Мода</button>
+ <button class="tab-btn relative py-3 text-sm text-gray-500
+whitespace-nowrap hover:text-gray-700 transition-colors" datatab="beauty">Красота</button>
+ </div>
+ </div>
+ </header>
+ <!-- Main Content -->
+ <main class="pt-32 pb-20 px-4 max-w-7xl mx-auto">
+ <!-- Masonry Grid -->
+ <div class="masonry-grid" id="contentGrid">
+ <!-- Posts will be inserted here by JavaScript -->
+ </div>
+ <!-- Loading Spinner -->
+ <div class="flex justify-center py-8" id="loadingSpinner">
+ <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-
+[#ff2442]"></div>
+ </div>
+ </main>
+ <!-- Mobile Bottom Navigation -->
+ <nav class="fixed bottom-0 left-0 right-0 bg-white border-t border-gray100 md:hidden z-50 safe-area-bottom">
+ <div class="flex justify-around items-center h-16">
+ <button class="nav-item flex flex-col items-center space-y-1 text-
+[#ff2442]" data-page="home">
+ <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+ <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
+ </svg>
+ <span class="text-xs">Главная</span>
+ </button>
+
+ <button class="nav-item flex flex-col items-center space-y-1 textgray-400" data-page="shop">
+ <svg class="w-6 h-6" fill="none" stroke="currentColor"
+viewBox="0 0 24 24">
+ <path stroke-linecap="round" stroke-linejoin="round"
+stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/>
+ </svg>
+ <span class="text-xs">Магазин</span>
+ </button>
+
+ <button class="nav-item flex flex-col items-center -mt-2" datapage="create">
+ <div class="w-12 h-12 bg-[#ff2442] rounded-xl flex itemscenter justify-center shadow-lg shadow-red-200">
+ <svg class="w-6 h-6 text-white" fill="none"
+stroke="currentColor" viewBox="0 0 24 24">
+ <path stroke-linecap="round" stroke-linejoin="round"
+stroke-width="2" d="M12 4v16m8-8H4"/>
+ </svg>
+ </div>
+ </button>
+
+ <button class="nav-item flex flex-col items-center space-y-1 textgray-400" data-page="messages">
+ <svg class="w-6 h-6" fill="none" stroke="currentColor"
+viewBox="0 0 24 24">
+ <path stroke-linecap="round" stroke-linejoin="round"
+stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9
+8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-
+4.418 4.03-8 9-8s9 3.582 9 8z"/>
+ </svg>
+ <span class="text-xs">Сообщения</span>
+ </button>
+
+ <button class="nav-item flex flex-col items-center space-y-1 textgray-400" data-page="profile">
+ <svg class="w-6 h-6" fill="none" stroke="currentColor"
+viewBox="0 0 24 24">
+ <path stroke-linecap="round" stroke-linejoin="round"
+stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7
+0 00-7-7z"/>
+ </svg>
+ <span class="text-xs">Я</span>
+ </button>
+ </div>
+ </nav>
+ <!-- Post Detail Modal -->
+ <div id="postModal" class="fixed inset-0 bg-black/50 z-[60] hidden
+opacity-0 transition-opacity duration-300">
+ <div class="absolute inset-0 flex items-center justify-center p-4">
+ <div class="bg-white rounded-2xl max-w-4xl w-full max-h-[90vh]
+overflow-hidden flex flex-col md:flex-row transform scale-95 transitiontransform duration-300" id="modalContent">
+ <!-- Image Section -->
+ <div class="md:w-3/5 bg-black flex items-center justify-center
+relative group">
+ <img id="modalImage" src="" alt="" class="max-h-[50vh]
+md:max-h-full w-full object-contain">
+ <button onclick="closeModal()" class="absolute top-4 left4 w-8 h-8 bg-black/50 rounded-full flex items-center justify-center text-white
+hover:bg-black/70 transition-colors md:hidden">
+ <svg class="w-5 h-5" fill="none" stroke="currentColor"
+viewBox="0 0 24 24">
+ <path stroke-linecap="round" strokelinejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+ </svg>
+ </button>
+ </div>
+
+ <!-- Content Section -->
+ <div class="md:w-2/5 flex flex-col h-full">
+ <!-- Header -->
+ <div class="p-4 border-b border-gray-100 flex items-center
+justify-between">
+ <div class="flex items-center space-x-3">
+ <img id="modalAvatar" src="" alt="" class="w-10 h10 rounded-full object-cover">
+ <div>
+ <h3 id="modalUsername" class="font-medium
+text-sm"></h3>
+ <p class="text-xs text-gray-400">Только
+что</p>
+ </div>
+ </div>
+<button class="text-[#ff2442] text-sm font-medium
+border border-[#ff2442] px-4 py-1.5 rounded-full hover:bg-[#ff2442]/5
+transition-colors">
+ Подписаться
+ </button>
+<button onclick="closeModal()" class="hidden md:block
+ml-4 text-gray-400 hover:text-gray-600">
+ <svg class="w-6 h-6" fill="none"
+stroke="currentColor" viewBox="0 0 24 24">
+ <path stroke-linecap="round" strokelinejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+ </svg>
+ </button>
+ </div>
+
+ <!-- Scrollable Content -->
+ <div class="flex-1 overflow-y-auto p-4">
+ <h2 id="modalTitle" class="font-bold text-lg mb2"></h2>
+ <p id="modalDescription" class="text-sm text-gray-600
+leading-relaxed mb-4"></p>
+ <p class="text-xs text-gray-400 mb-4">20-04-2026</p>
+
+<!-- Comments Section -->
+ <div class="border-t border-gray-100 pt-4">
+ <h4 class="text-sm font-medium mb-3">Комментарии
+(<span id="commentCount">0</span>)</h4>
+ <div id="commentsList" class="space-y-3">
+ <!-- Comments will be inserted here -->
+ </div>
+ </div>
+ </div>
+
+ <!-- Footer Actions -->
+ <div class="p-4 border-t border-gray-100">
+ <div class="flex items-center justify-between mb-3">
+ <div class="flex items-center space-x-4">
+ <button id="modalLikeBtn" class="flex itemscenter space-x-1 text-gray-600 hover:text-[#ff2442] transition-colors">
+ <svg class="w-6 h-6" fill="none"
+stroke="currentColor" viewBox="0 0 24 24">
+ <path stroke-linecap="round" strokelinejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12
+20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0
+00-6.364 0z"/>
+ </svg>
+<span id="modalLikes" class="textsm"></span>
+ </button>
+<button class="flex items-center space-x-1
+text-gray-600 hover:text-yellow-500 transition-colors">
+ <svg class="w-6 h-6" fill="none"
+stroke="currentColor" viewBox="0 0 24 24">
+ <path stroke-linecap="round" strokelinejoin="round" stroke-width="2" d="M11.049 2.927c.3-.921 1.603-.921 1.902
+0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1
+0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0
+00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-
+.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-
+.69l1.519-4.674z"/>
+ </svg>
+ </button>
+ </div>
+<button class="text-gray-600 hover:text-gray-900">
+ <svg class="w-6 h-6" fill="none"
+stroke="currentColor" viewBox="0 0 24 24">
+ <path stroke-linecap="round" strokelinejoin="round" stroke-width="2" d="M8.684 13.342C8.886 12.938 9 12.482 9
+12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3
+0 105.368 2.684 3 3 0 00-5.368-2.684z"/>
+ </svg>
+ </button>
+ </div>
+<div class="flex items-center space-x-2">
+ <input type="text" placeholder="Добавить
+комментарий..." class="flex-1 bg-gray-100 rounded-full px-4 py-2 text-sm
+focus:outline-none focus:ring-2 focus:ring-[#ff2442]/20">
+ <button class="text-[#ff2442] font-medium textsm">Отправить</button>
+ </div>
+ </div>
+ </div>
+ </div>
+ </div>
+ </div>
+ <script>
+ // Sample data for posts
+ const postsData = [
+ {
+ id: 1,
+ image: "data:image/svg+xml,%3Csvg
+xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400
+500'%3E%3Cdefs%3E%3ClinearGradient id='g1' x1='0%25' y1='0%25' x2='100%25'
+y2='100%25'%3E%3Cstop offset='0%25' style='stop-color:%23FFB6C1'/%3E%3Cstop
+offset='100%25' style='stopcolor:%23FF69B4'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect fill='url(%23g1)'
+width='400' height='500'/%3E%3Ccircle cx='200' cy='200' r='80' fill='%23FFF'
+opacity='0.3'/%3E%3Ctext x='200' y='350' font-family='Arial' font-size='24'
+fill='%23FFF' text-anchor='middle'%3EВесенний образ%3C/text%3E%3C/svg%3E",
+ title: "Весенний образ 2026 🌸 Идеальное сочетание нежных
+оттенков для прогулки по городу",
+ description: "Сегодня хочу поделиться с вами своим любимым
+весенним луком! Пастельные тона всегда поднимают настроение. \n\n✨ Жакет:
+Zara\n👗 Платье: H&M\n👜 Сумка: vintage find\n\nКак вам сочетание? Пишите в
+комментариях! 💕",
+ author: "Анна Стиль",
+ avatar: "data:image/svg+xml,%3Csvg
+xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect
+fill='%23FFB6C1' width='100' height='100'/%3E%3Ccircle cx='50' cy='40' r='20'
+fill='%23FFF'/%3E%3Cellipse cx='50' cy='90' rx='35' ry='30'
+fill='%23FFF'/%3E%3C/svg%3E",
+ likes: 1234,
+ isLiked: false,
+ height: 500
+ },
+ {
+ id: 2,
+ image: "data:image/svg+xml,%3Csvg
+xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400
+400'%3E%3Cdefs%3E%3ClinearGradient id='g2' x1='0%25' y1='0%25' x2='100%25'
+y2='100%25'%3E%3Cstop offset='0%25' style='stop-color:%2398FB98'/%3E%3Cstop
+offset='100%25' style='stopcolor:%233CB371'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect fill='url(%23g2)'
+width='400' height='400'/%3E%3Crect x='100' y='100' width='200' height='200'
+rx='20' fill='%23FFF' opacity='0.3'/%3E%3Ctext x='200' y='350' fontfamily='Arial' font-size='24' fill='%23FFF' text-anchor='middle'%3EЗеленый
+смузи%3C/text%3E%3C/svg%3E",
+ title: "Рецепт идеального зеленого смузи 🥬🍌",
+ description: "Этот смузи стал моим утренним ритуалом! Заряжает
+энергией на весь день.\n\nИнгредиенты:\n• Шпинат - 1 чашка\n• Банан - 1 шт\n•
+Яблоко - 1/2\n• Имбирь - кусочек 2см\n• Вода кокосовая - 200мл\n\nВсе смешать
+в блендере до однородности. Наслаждайтесь! 💚",
+ author: "Здоровое Питание",
+ avatar: "data:image/svg+xml,%3Csvg
+xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect
+fill='%2398FB98' width='100' height='100'/%3E%3Ccircle cx='50' cy='40' r='20'
+fill='%23FFF'/%3E%3Cellipse cx='50' cy='90' rx='35' ry='30'
+fill='%23FFF'/%3E%3C/svg%3E",
+ likes: 856,
+ isLiked: false,
+ height: 400
+ },
+ {
+ id: 3,
+ image: "data:image/svg+xml,%3Csvg
+xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400
+600'%3E%3Cdefs%3E%3ClinearGradient id='g3' x1='0%25' y1='0%25' x2='100%25'
+y2='100%25'%3E%3Cstop offset='0%25' style='stop-color:%2387CEEB'/%3E%3Cstop
+offset='100%25' style='stopcolor:%234682B4'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect fill='url(%23g3)'
+width='400' height='600'/%3E%3Cpolygon points='200,100 300,300 100,300'
+fill='%23FFF' opacity='0.3'/%3E%3Ctext x='200' y='450' font-family='Arial'
+font-size='24' fill='%23FFF' text-anchor='middle'%3EГоры
+Алтая%3C/text%3E%3C/svg%3E",
+ title: "Невероятные горы Алтая 🏔️ Место, где душа отдыхает",
+ description: "Провела неделю в горах Алтая и это было просто
+волшебно! Чистейший воздух, потрясающие виды и полное единение с
+природой.\n\n📍 Локация: Чемальский тракт\n🏨 Проживание: глэмпинг 'Алтайские
+зори'\n💰 Бюджет: около 50к на человека за неделю\n\nОбязательно к посещению!
+✨",
+ author: "Путешественница Маша",
+ avatar: "data:image/svg+xml,%3Csvg
+xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect
+fill='%2387CEEB' width='100' height='100'/%3E%3Ccircle cx='50' cy='40' r='20'
+fill='%23FFF'/%3E%3Cellipse cx='50' cy='90' rx='35' ry='30'
+fill='%23FFF'/%3E%3C/svg%3E",
+ likes: 2341,
+ isLiked: true,
+ height: 600
+ },
+ {
+ id: 4,
+ image: "data:image/svg+xml,%3Csvg
+xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400
+350'%3E%3Cdefs%3E%3ClinearGradient id='g4' x1='0%25' y1='0%25' x2='100%25'
+y2='100%25'%3E%3Cstop offset='0%25' style='stop-color:%23DDA0DD'/%3E%3Cstop
+offset='100%25' style='stopcolor:%239370DB'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect fill='url(%23g4)'
+width='400' height='350'/%3E%3Ccircle cx='200' cy='175' r='100' fill='%23FFF'
+opacity='0.3'/%3E%3Ctext x='200' y='280' font-family='Arial' font-size='24'
+fill='%23FFF' text-anchor='middle'%3EМакияж дня%3C/text%3E%3C/svg%3E",
+ title: "Лавандовый макияж 💜 Тренд весны 2026",
+ description: "Лавандовые оттенки глаз - главный тренд этой
+весны! Делюсь пошаговым туториалом.\n\n1. База под тени\n2. Светло-лавандовый
+на все веко\n3. Темный фиолетовый во внешний уголок\n4. подводка стрелкой\n5.
+Тушь\n\nПродукты использовала от Fenty Beauty и Rare Beauty 💄",
+ author: "Beauty Guru",
+ avatar: "data:image/svg+xml,%3Csvg
+xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect
+fill='%23DDA0DD' width='100' height='100'/%3E%3Ccircle cx='50' cy='40' r='20'
+fill='%23FFF'/%3E%3Cellipse cx='50' cy='90' rx='35' ry='30'
+fill='%23FFF'/%3E%3C/svg%3E",
+ likes: 3456,
+ isLiked: false,
+ height: 350
+ },
+ {
+ id: 5,
+ image: "data:image/svg+xml,%3Csvg
+xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400
+450'%3E%3Cdefs%3E%3ClinearGradient id='g5' x1='0%25' y1='0%25' x2='100%25'
+y2='100%25'%3E%3Cstop offset='0%25' style='stop-color:%23F0E68C'/%3E%3Cstop
+offset='100%25' style='stopcolor:%23DAA520'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect fill='url(%23g5)'
+width='400' height='450'/%3E%3Crect x='150' y='100' width='100' height='200'
+rx='10' fill='%23FFF' opacity='0.3'/%3E%3Ctext x='200' y='380' fontfamily='Arial' font-size='24' fill='%23FFF' text-anchor='middle'%3EУютный
+дом%3C/text%3E%3C/svg%3E",
+ title: "Как создать уют в маленькой квартире 🏠",
+ description: "Живу в студии 35м² и хочу поделиться лайфхаками
+по созданию уюта на небольшой площади.\n\n🛋️ Многофункциональная мебель\n💡
+Теплое освещение 2700K\n🪴 Живые растения\n🖼️ Зеркала для расширения
+пространства\n\nГлавное - любить свое пространство! ✨",
+ author: "Интерьеры",
+ avatar: "data:image/svg+xml,%3Csvg
+xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect
+fill='%23F0E68C' width='100' height='100'/%3E%3Ccircle cx='50' cy='40' r='20'
+fill='%23FFF'/%3E%3Cellipse cx='50' cy='90' rx='35' ry='30'
+fill='%23FFF'/%3E%3C/svg%3E",
+ likes: 1892,
+ isLiked: false,
+ height: 450
+ },
+ {
+ id: 6,
+ image: "data:image/svg+xml,%3Csvg
+xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400
+500'%3E%3Cdefs%3E%3ClinearGradient id='g6' x1='0%25' y1='0%25' x2='100%25'
+y2='100%25'%3E%3Cstop offset='0%25' style='stop-color:%23FFA07A'/%3E%3Cstop
+offset='100%25' style='stopcolor:%23FF6347'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect fill='url(%23g6)'
+width='400' height='500'/%3E%3Ccircle cx='200' cy='200' r='120' fill='%23FFF'
+opacity='0.3'/%3E%3Ctext x='200' y='400' font-family='Arial' font-size='24'
+fill='%23FFF' text-anchor='middle'%3EДомашняя паста%3C/text%3E%3C/svg%3E",
+ title: "Домашняя паста карбонара 🍝 Рецепт от итальянской
+бабушки",
+ description: "Научилась готовить настоящую карбонару у своей
+итальянской подруги! Никаких сливок - только яйца, сыр и
+гуанчиале.\n\nИнгредиенты на 2 порции:\n• Спагетти - 200г\n• Гуанчиале -
+100г\n• Яичные желтки - 3 шт\n• Пекорино романо - 50г\n• Черный
+перец\n\nСекрет в температуре - важно не перегреть яйца! 🇮🇹",
+ author: "Шеф Дома",
+ avatar: "data:image/svg+xml,%3Csvg
+xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect
+fill='%23FFA07A' width='100' height='100'/%3E%3Ccircle cx='50' cy='40' r='20'
+fill='%23FFF'/%3E%3Cellipse cx='50' cy='90' rx='35' ry='30'
+fill='%23FFF'/%3E%3C/svg%3E",
+ likes: 4521,
+ isLiked: true,
+ height: 500
+ },
+ {
+ id: 7,
+ image: "data:image/svg+xml,%3Csvg
+xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400
+380'%3E%3Cdefs%3E%3ClinearGradient id='g7' x1='0%25' y1='0%25' x2='100%25'
+y2='100%25'%3E%3Cstop offset='0%25' style='stop-color:%23B0E0E6'/%3E%3Cstop
+offset='100%25' style='stopcolor:%234682B4'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect fill='url(%23g7)'
+width='400' height='380'/%3E%3Crect x='100' y='80' width='200' height='150'
+rx='5' fill='%23FFF' opacity='0.3'/%3E%3Ctext x='200' y='320' fontfamily='Arial' font-size='24' fill='%23FFF' text-anchor='middle'%3EРабочее
+место%3C/text%3E%3C/svg%3E",
+ title: "Минималистичное рабочее место 💻 Продуктивность x10",
+ description: "Обновила свое рабочее место и теперь работаю с
+удовольствием! \n\nЧто использовала:\n• Стол IKEA BEKANT\n• Монитор LG
+UltraWide\n• Клавиатура Keychron K2\n• Мышь Logitech MX Master\n• Лампа BenQ
+ScreenBar\n\nГлавное правило минимализма - только необходимое на виду! ✨",
+ author: "Digital Nomad",
+ avatar: "data:image/svg+xml,%3Csvg
+xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect
+fill='%23B0E0E6' width='100' height='100'/%3E%3Ccircle cx='50' cy='40' r='20'
+fill='%23FFF'/%3E%3Cellipse cx='50' cy='90' rx='35' ry='30'
+fill='%23FFF'/%3E%3C/svg%3E",
+ likes: 987,
+ isLiked: false,
+ height: 380
+ },
+ {
+ id: 8,
+ image: "data:image/svg+xml,%3Csvg
+xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400
+550'%3E%3Cdefs%3E%3ClinearGradient id='g8' x1='0%25' y1='0%25' x2='100%25'
+y2='100%25'%3E%3Cstop offset='0%25' style='stop-color:%23FFB6C1'/%3E%3Cstop
+offset='100%25' style='stopcolor:%23FF1493'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect fill='url(%23g8)'
+width='400' height='550'/%3E%3Ccircle cx='200' cy='220' r='150' fill='%23FFF'
+opacity='0.3'/%3E%3Ctext x='200' y='450' font-family='Arial' font-size='24'
+fill='%23FFF' text-anchor='middle'%3EЙога утром%3C/text%3E%3C/svg%3E",
+ title: "Утренняя йога для начинающих 🧘‍♀️ 15 минут энергии",
+ description: "Начала каждое утро с простой йоги и чувствую
+себя намного лучше! Делюсь комплексом для новичков.\n\n1. Поза ребенка - 1
+мин\n2. Кошка-корова - 1 мин\n3. Собака мордой вниз - 1 мин\n4. Воин I и II -
+по 1 мин на сторону\n5. Поза дерева - по 30 сек\n\nГлавное - регулярность!
+Namaste 🙏",
+ author: "Yoga Life",
+ avatar: "data:image/svg+xml,%3Csvg
+xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect
+fill='%23FFB6C1' width='100' height='100'/%3E%3Ccircle cx='50' cy='40' r='20'
+fill='%23FFF'/%3E%3Cellipse cx='50' cy='90' rx='35' ry='30'
+fill='%23FFF'/%3E%3C/svg%3E",
+ likes: 2156,
+ isLiked: false,
+ height: 550
+ },
+ {
+ id: 9,
+ image: "data:image/svg+xml,%3Csvg
+xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400
+420'%3E%3Cdefs%3E%3ClinearGradient id='g9' x1='0%25' y1='0%25' x2='100%25'
+y2='100%25'%3E%3Cstop offset='0%25' style='stop-color:%2398FB98'/%3E%3Cstop
+offset='100%25' style='stopcolor:%23228B22'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect fill='url(%23g9)'
+width='400' height='420'/%3E%3Crect x='120' y='100' width='160' height='160'
+rx='80' fill='%23FFF' opacity='0.3'/%3E%3Ctext x='200' y='350' fontfamily='Arial' font-size='24' fill='%23FFF' text-anchor='middle'%3EКомнатные
+растения%3C/text%3E%3C/svg%3E",
+ title: "Топ-5 неприхотливых растений для дома 🌿",
+ description: "Для тех, кто боится убить растения - мой список
+самых выносливых!\n\n1. Сансевиерия (тещин язык)\n2. Замиокулькас (долларовое
+дерево)\n3. Хлорофитум\n4. Спатифиллум (женское счастье)\n5. Фикус
+эластика\n\nВсе они прощают забывчивость в поливе! 💚",
+ author: "Plant Mom",
+ avatar: "data:image/svg+xml,%3Csvg
+xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect
+fill='%2398FB98' width='100' height='100'/%3E%3Ccircle cx='50' cy='40' r='20'
+fill='%23FFF'/%3E%3Cellipse cx='50' cy='90' rx='35' ry='30'
+fill='%23FFF'/%3E%3C/svg%3E",
+ likes: 1678,
+ isLiked: false,
+ height: 420
+ },
+ {
+ id: 10,
+ image: "data:image/svg+xml,%3Csvg
+xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400
+480'%3E%3Cdefs%3E%3ClinearGradient id='g10' x1='0%25' y1='0%25' x2='100%25'
+y2='100%25'%3E%3Cstop offset='0%25' style='stop-color:%23E6E6FA'/%3E%3Cstop
+offset='100%25' style='stopcolor:%239370DB'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect fill='url(%23g10)'
+width='400' height='480'/%3E%3Cpolygon points='200,80 280,200 200,320 120,200'
+fill='%23FFF' opacity='0.3'/%3E%3Ctext x='200' y='420' font-family='Arial'
+font-size='24' fill='%23FFF' text-anchor='middle'%3EКнижная
+полка%3C/text%3E%3C/svg%3E",
+ title: "Книги, которые изменили мое мышление 📚",
+ description: "Подборка книг, которые обязательно стоит
+прочитать в 2026 году:\n\n1. 'Атомные привычки' - Джейс Клир\n2. 'Думай
+медленно, решай быстро' - Даниэль Канеман\n3. 'Сила настоящего' - Экхарт
+Толле\n4. 'Богатый папа, бедный папа' - Роберт Кийосаки\n5. '12 правил жизни'
+- Джордан Питерсон\n\nКакая ваша любимая книга? 👇",
+ author: "Book Lover",
+ avatar: "data:image/svg+xml,%3Csvg
+xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect
+fill='%23E6E6FA' width='100' height='100'/%3E%3Ccircle cx='50' cy='40' r='20'
+fill='%23FFF'/%3E%3Cellipse cx='50' cy='90' rx='35' ry='30'
+fill='%23FFF'/%3E%3C/svg%3E",
+ likes: 3245,
+ isLiked: true,
+ height: 480
+ },
+ {
+ id: 11,
+ image: "data:image/svg+xml,%3Csvg
+xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400
+360'%3E%3Cdefs%3E%3ClinearGradient id='g11' x1='0%25' y1='0%25' x2='100%25'
+y2='100%25'%3E%3Cstop offset='0%25' style='stop-color:%23FFDAB9'/%3E%3Cstop
+offset='100%25' style='stopcolor:%23CD853F'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect fill='url(%23g11)'
+width='400' height='360'/%3E%3Ccircle cx='200' cy='180' r='100' fill='%23FFF'
+opacity='0.3'/%3E%3Ctext x='200' y='310' font-family='Arial' font-size='24'
+fill='%23FFF' text-anchor='middle'%3EКофейня дня%3C/text%3E%3C/svg%3E",
+ title: "Лучшая кофейня в городе ☕ Скрытая жемчужина",
+ description: "Нашла невероятную кофейню в переулках центра!
+Атмосфера как в Париже.\n\n📍 Адрес: ул. Цветочная, 15\n☕ Капучино:
+280₽\n🥐 Круассан: 180₽\n⭐ Рейтинг: 10/10\n\nИдеальное место для работы или
+свидания! 💕",
+ author: "Coffee Addict",
+ avatar: "data:image/svg+xml,%3Csvg
+xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect
+fill='%23FFDAB9' width='100' height='100'/%3E%3Ccircle cx='50' cy='40' r='20'
+fill='%23FFF'/%3E%3Cellipse cx='50' cy='90' rx='35' ry='30'
+fill='%23FFF'/%3E%3C/svg%3E",
+ likes: 892,
+ isLiked: false,
+ height: 360
+ },
+ {
+ id: 12,
+ image: "data:image/svg+xml,%3Csvg
+xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400
+520'%3E%3Cdefs%3E%3ClinearGradient id='g12' x1='0%25' y1='0%25' x2='100%25'
+y2='100%25'%3E%3Cstop offset='0%25' style='stop-color:%23F08080'/%3E%3Cstop
+offset='100%25' style='stopcolor:%23DC143C'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect fill='url(%23g12)'
+width='400' height='520'/%3E%3Crect x='100' y='120' width='200' height='200'
+rx='10' fill='%23FFF' opacity='0.3'/%3E%3Ctext x='200' y='450' fontfamily='Arial' font-size='24' fill='%23FFF' text-anchor='middle'%3EФитнес
+мотивация%3C/text%3E%3C/svg%3E",
+ title: "Моя трансформация за 3 месяца 💪 До и после",
+ description: "3 месяца назад я начала заниматься дома и вот
+результаты!\n\n📊 Минус 8 кг\n📈 Плюс 5 кг мышц\n⏱️ Тренировки 4 раза в
+неделю по 45 мин\n🥗 Правильное питание без диет\n\nГлавное - начать! Кто со
+мной? 🔥",
+ author: "Fit Girl",
+ avatar: "data:image/svg+xml,%3Csvg
+xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect
+fill='%23F08080' width='100' height='100'/%3E%3Ccircle cx='50' cy='40' r='20'
+fill='%23FFF'/%3E%3Cellipse cx='50' cy='90' rx='35' ry='30'
+fill='%23FFF'/%3E%3C/svg%3E",
+ likes: 5678,
+ isLiked: false,
+ height: 520
+ }
+ ];
+ let currentPosts = [...postsData];
+ let isLoading = false;
+ // Render posts
+ function renderPosts(posts) {
+ const grid = document.getElementById('contentGrid');
+ grid.innerHTML = '';
+
+ posts.forEach(post => {
+ const postElement = createPostElement(post);
+ grid.appendChild(postElement);
+ });
+ }
+ function createPostElement(post) {
+ const div = document.createElement('div');
+ div.className = 'break-inside-avoid mb-2.5 md:mb-4';
+ div.innerHTML = `
+ <div class="bg-white rounded-xl overflow-hidden shadow-sm
+hover:shadow-md transition-shadow cursor-pointer group"
+onclick="openModal(${post.id})">
+ <div class="relative overflow-hidden">
+ <img src="${post.image}" alt="${post.title}" class="wfull object-cover transition-transform duration-300 group-hover:scale-105"
+style="height: ${post.height * 0.6}px;">
+ <div class="absolute inset-0 bg-gradient-to-t fromblack/20 to-transparent opacity-0 group-hover:opacity-100 transitionopacity"></div>
+ </div>
+ <div class="p-3">
+ <h3 class="text-sm font-medium line-clamp-2 mb-2 textgray-800">${post.title}</h3>
+ <div class="flex items-center justify-between">
+ <div class="flex items-center space-x-2">
+ <img src="${post.avatar}" alt="${post.author}"
+class="w-5 h-5 rounded-full object-cover">
+ <span class="text-xs text-gray-500 truncate
+max-w-[80px]">${post.author}</span>
+ </div>
+<button class="flex items-center space-x-1 textgray-400 hover:text-[#ff2442] transition-colors like-btn"
+onclick="toggleLike(event, ${post.id})">
+ <svg class="w-4 h-4 ${post.isLiked ? 'text-
+[#ff2442] fill-current' : ''}" fill="${post.isLiked ? 'currentColor' :
+'none'}" stroke="currentColor" viewBox="0 0 24 24">
+ <path stroke-linecap="round" strokelinejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12
+20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0
+00-6.364 0z"/>
+ </svg>
+<span class="textxs">${formatNumber(post.likes)}</span>
+ </button>
+ </div>
+ </div>
+ </div>
+ `;
+ return div;
+ }
+ function formatNumber(num) {
+ if (num >= 1000) {
+ return (num / 1000).toFixed(1) + 'k';
+ }
+ return num.toString();
+ }
+ function toggleLike(event, postId) {
+ event.stopPropagation();
+ const post = currentPosts.find(p => p.id === postId);
+ if (post) {
+ post.isLiked = !post.isLiked;
+ post.likes += post.isLiked ? 1 : -1;
+ renderPosts(currentPosts);
+ }
+ }
+ function openModal(postId) {
+ const post = currentPosts.find(p => p.id === postId);
+ if (!post) return;
+ document.getElementById('modalImage').src = post.image;
+ document.getElementById('modalAvatar').src = post.avatar;
+ document.getElementById('modalUsername').textContent =
+post.author;
+ document.getElementById('modalTitle').textContent = post.title;
+ document.getElementById('modalDescription').textContent =
+post.description;
+ document.getElementById('modalLikes').textContent =
+formatNumber(post.likes);
+
+ const likeBtn = document.getElementById('modalLikeBtn');
+ likeBtn.onclick = () => {
+ post.isLiked = !post.isLiked;
+ post.likes += post.isLiked ? 1 : -1;
+ document.getElementById('modalLikes').textContent =
+formatNumber(post.likes);
+ const svg = likeBtn.querySelector('svg');
+ if (post.isLiked) {
+ svg.classList.add('text-[#ff2442]', 'fill-current');
+ svg.setAttribute('fill', 'currentColor');
+ svg.classList.add('like-animation');
+ setTimeout(() => svg.classList.remove('like-animation'),
+300);
+ } else {
+ svg.classList.remove('text-[#ff2442]', 'fill-current');
+ svg.setAttribute('fill', 'none');
+ }
+ renderPosts(currentPosts);
+ };
+ // Generate fake comments
+ const comments = generateComments();
+ document.getElementById('commentCount').textContent =
+comments.length;
+ const commentsList = document.getElementById('commentsList');
+ commentsList.innerHTML = comments.map(comment => `
+ <div class="flex space-x-2">
+ <img src="${comment.avatar}" alt="" class="w-7 h-7
+rounded-full object-cover flex-shrink-0">
+ <div class="flex-1">
+ <div class="bg-gray-50 rounded-2xl px-3 py-2">
+ <p class="text-xs font-medium text-gray-600 mb0.5">${comment.author}</p>
+ <p class="text-sm text-gray800">${comment.text}</p>
+ </div>
+<div class="flex items-center space-x-3 mt-1 ml-2">
+ <span class="text-xs text-gray400">${comment.time}</span>
+ <button class="text-xs text-gray-400 hover:textgray-600">Ответить</button>
+ <button class="text-xs text-gray-400 hover:text-
+[#ff2442] flex items-center space-x-1">
+ <svg class="w-3 h-3" fill="none"
+stroke="currentColor" viewBox="0 0 24 24">
+ <path stroke-linecap="round" strokelinejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12
+20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0
+00-6.364 0z"/>
+ </svg>
+<span>${comment.likes}</span>
+ </button>
+ </div>
+ </div>
+ </div>
+ `).join('');
+ const modal = document.getElementById('postModal');
+ modal.classList.remove('hidden');
+ setTimeout(() => {
+ modal.classList.remove('opacity-0');
+
+document.getElementById('modalContent').classList.remove('scale-95');
+ document.getElementById('modalContent').classList.add('scale100');
+ }, 10);
+ document.body.style.overflow = 'hidden';
+ }
+ function closeModal() {
+ const modal = document.getElementById('postModal');
+ modal.classList.add('opacity-0');
+ document.getElementById('modalContent').classList.remove('scale100');
+ document.getElementById('modalContent').classList.add('scale-95');
+ setTimeout(() => {
+ modal.classList.add('hidden');
+ document.body.style.overflow = '';
+ }, 300);
+ }
+ function generateComments() {
+ const comments = [
+ { author: "Мария", text: "Так красиво! 😍", time: "2ч",
+likes: 12, avatar: "data:image/svg+xml,%3Csvg
+xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect
+fill='%23FFB6C1' width='100' height='100'/%3E%3Ccircle cx='50' cy='40' r='20'
+fill='%23FFF'/%3E%3Cellipse cx='50' cy='90' rx='35' ry='30'
+fill='%23FFF'/%3E%3C/svg%3E" },
+ { author: "Алексей", text: "Спасибо за вдохновение!", time:
+"1ч", likes: 8, avatar: "data:image/svg+xml,%3Csvg
+xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect
+fill='%2387CEEB' width='100' height='100'/%3E%3Ccircle cx='50' cy='40' r='20'
+fill='%23FFF'/%3E%3Cellipse cx='50' cy='90' rx='35' ry='30'
+fill='%23FFF'/%3E%3C/svg%3E" },
+ { author: "Елена", text: "Обожаю такой стиль ❤️", time:
+"45мин", likes: 15, avatar: "data:image/svg+xml,%3Csvg
+xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect
+fill='%23DDA0DD' width='100' height='100'/%3E%3Ccircle cx='50' cy='40' r='20'
+fill='%23FFF'/%3E%3Cellipse cx='50' cy='90' rx='35' ry='30'
+fill='%23FFF'/%3E%3C/svg%3E" },
+ { author: "Дмитрий", text: "Где можно купить?", time: "30мин",
+likes: 3, avatar: "data:image/svg+xml,%3Csvg
+xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect
+fill='%2398FB98' width='100' height='100'/%3E%3Ccircle cx='50' cy='40' r='20'
+fill='%23FFF'/%3E%3Cellipse cx='50' cy='90' rx='35' ry='30'
+fill='%23FFF'/%3E%3C/svg%3E" }
+ ];
+ return comments.slice(0, Math.floor(Math.random() * 3) + 2);
+ }
+ // Tab switching
+ document.querySelectorAll('.tab-btn').forEach(btn => {
+ btn.addEventListener('click', function() {
+ document.querySelectorAll('.tab-btn').forEach(b => {
+ b.classList.remove('tab-active');
+ b.classList.add('text-gray-500');
+ });
+ this.classList.add('tab-active');
+ this.classList.remove('text-gray-500');
+
+ // Shuffle posts for demo
+ currentPosts = [...postsData].sort(() => Math.random() - 0.5);
+ renderPosts(currentPosts);
+ });
+ });
+ // Search functionality
+ document.getElementById('searchInput').addEventListener('input',
+function(e) {
+ const query = e.target.value.toLowerCase();
+ if (query === '') {
+ currentPosts = [...postsData];
+ } else {
+ currentPosts = postsData.filter(post =>
+ post.title.toLowerCase().includes(query) ||
+ post.author.toLowerCase().includes(query) ||
+ post.description.toLowerCase().includes(query)
+ );
+ }
+ renderPosts(currentPosts);
+ });
+ // Mobile navigation
+ document.querySelectorAll('.nav-item').forEach(item => {
+ item.addEventListener('click', function() {
+ document.querySelectorAll('.nav-item').forEach(i => {
+ i.classList.remove('text-[#ff2442]');
+ i.classList.add('text-gray-400');
+ });
+ this.classList.remove('text-gray-400');
+ this.classList.add('text-[#ff2442]');
+ });
+ });
+ // Close modal on outside click
+ document.getElementById('postModal').addEventListener('click',
+function(e) {
+ if (e.target === this) {
+ closeModal();
+ }
+ });
+ // Infinite scroll simulation
+ window.addEventListener('scroll', () => {
+ if (isLoading) return;
+
+ const { scrollTop, scrollHeight, clientHeight } =
+document.documentElement;
+ if (scrollTop + clientHeight >= scrollHeight - 100) {
+ isLoading = true;
+ document.getElementById('loadingSpinner').style.display =
+'flex';
+
+ setTimeout(() => {
+ // Duplicate existing posts with new IDs for infinite
+scroll effect
+ const newPosts = postsData.map(post => ({
+ ...post,
+id: post.id + currentPosts.length,
+ likes: Math.floor(Math.random() * 5000) + 100,
+ isLiked: false
+ }));
+ currentPosts = [...currentPosts, ...newPosts];
+ renderPosts(currentPosts);
+ isLoading = false;
+ document.getElementById('loadingSpinner').style.display =
+'none';
+ }, 1000);
+ }
+ });
+ // Initial render
+ renderPosts(currentPosts);
+ document.getElementById('loadingSpinner').style.display = 'none';
+ </script>
+</body>
+</html>
+#kodni copy qlib html ga soling#

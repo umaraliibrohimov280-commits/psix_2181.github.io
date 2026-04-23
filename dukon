@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Elite Shop</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: #0f172a;
+      color: white;
+    }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px;
+      background: rgba(0,0,0,0.6);
+      backdrop-filter: blur(10px);
+    }
+
+    h1 { margin: 0; }
+
+    #cart {
+      background: #22c55e;
+      padding: 10px 15px;
+      border-radius: 20px;
+      font-weight: bold;
+    }
+
+    .container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 25px;
+      padding: 40px;
+    }
+
+    .product {
+      background: rgba(255,255,255,0.05);
+      border-radius: 20px;
+      padding: 20px;
+      text-align: center;
+      transition: 0.3s;
+    }
+
+    .product:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    }
+
+    img {
+      width: 100%;
+      border-radius: 15px;
+    }
+
+    button {
+      margin-top: 10px;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 20px;
+      background: linear-gradient(45deg, #22c55e, #4ade80);
+      color: black;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    .checkout {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: #6366f1;
+      padding: 15px;
+      border-radius: 20px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>✨ Elite Shop</h1>
+  <div id="cart">🛒 9</div>
+</header>
+
+<div class="container">
+
+  <div class="product">
+    <img src="https://via.placeholder.com/300" alt="">
+    <h2>iPhone</h2>
+    <p>1000$</p>
+    <button onclick="addToCart('iPhone',1000)">Купить</button>
+  </div>
+
+  <div class="product">
+    <img src="https://via.placeholder.com/300" alt="">
+    <h2>MacBook</h2>
+    <p>2000$</p>
+    <button onclick="addToCart('MacBook',2000)">Купить</button>
+  </div>
+
+  <div class="product">
+    <img src="https://via.placeholder.com/300" alt="">
+    <h2>AirPods</h2>
+    <p>300$</p>
+    <button onclick="addToCart('AirPods',300)">Купить</button>
+  </div>
+
+</div>
+
+<div class="checkout" onclick="checkout()">
+  💳 Оплатить
+</div>
+
+<script>
+  let cart = [];
+
+  function addToCart(name, price) {
+    cart.push({name, price});
+    document.getElementById('cart').innerText = '🛒 ' + cart.length;
+  }
+
+  function checkout() {
+    if(cart.length === 0) {
+      alert('Корзина пуста');
+      return;
+    }
+
+    let total = cart.reduce((sum, item) => sum + item.price, 0);
+
+    let method = prompt('Выберите оплату: 1 - Payme, 2 - Click');
+
+    if(method == '1') {
+      alert('Оплата через Payme на сумму ' + total + '$');
+    } else if(method == '2') {
+      alert('Оплата через Click на сумму ' + total + '$');
+    } else {
+      alert('Отмена');
+    }
+  }
+</script>
+
+</body>
+</html>
+
+</html>
